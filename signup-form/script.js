@@ -1,10 +1,14 @@
 let submitButton = document.getElementById("submitButton")
 let errors={}
+
 submitButton.addEventListener("click",function(e){
     e.preventDefault()
+    errors={}
     let signupForm = document.forms["signupForm"];
     let firstNameInput = signupForm.firstName
     let lastNameInput = signupForm.lastName
+    let emailInput = signupForm.email
+    let passwordInput = signupForm.password
 
     if(firstNameInput.value==""){
         errors.firstName = "firstname should not be empty"
@@ -15,12 +19,23 @@ submitButton.addEventListener("click",function(e){
     }
     if(lastNameInput.value==""){
         errors.lastName = "lastname should not be empty"
-        // let lastNameGroup = document.getElementById("lastNameGroup");
-        // let lastNameMessage =document.querySelector("#lastNameGroup .message");
-        // lastNameGroup.classList.add("error")
-        // lastNameMessage.textContent="Lastname should not be empty"
     }
+    if(emailInput.value==""){
+        errors.email = "email should not be empty"
+    }
+    if(passwordInput.value.length <=5){
+        errors.password = "minimum 6 characters are needed"
+    }
+
     console.log(errors);
-    for(let error in errors){}
-    
+    for(let error in errors){
+        console.log(errors[error])
+        let lastNameGroup = document.getElementById(`${error}Group`);
+        let lastNameMessage =document.querySelector(`#${error}Group .message`);
+        lastNameGroup.classList.add("error")
+        lastNameMessage.textContent=errors[error]
+    }
+    if(Object.keys(errors).length ==0){
+        signupForm.submit()
+    }
 });
